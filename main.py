@@ -5,6 +5,7 @@ import pandas as pd
 from pandas import json_normalize
 import json
 from config import api_key
+import os
 
 #API
 """
@@ -70,13 +71,17 @@ if __name__ == '__main__':
     #Registrando la fecha de ejecucion
     fecha_actual = datetime.now().strftime("%Y%m%d")
 
-    #Ruta donde almacenaremos el archivo y su fecha
-    path_file = f'data_analytics/openweather/tiempodiario_{fecha_actual}.csv' 
+    # Obtener la ruta absoluta de la carpeta donde se guardará el archivo
+    folder_path = 'data_analytics/openweather'
+    if not os.path.exists(folder_path):
+        os.makedirs(folder_path)
+
+    # Obtener la ruta completa del archivo
+    path_file = os.path.join(folder_path, f'tiempodiario_{fecha_actual}.csv')
 
     #archivando datos
     with open(path_file, 'w') as output_file:
         df.to_csv(output_file, encoding="UTF8", sep=",", index=False)
-        print(df)
 
 
 
